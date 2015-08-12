@@ -1,0 +1,48 @@
+buildscript {
+    repositories {
+        maven { url "http://repo.spring.io/libs-snapshot" }
+        mavenLocal()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.5.RELEASE")
+    }
+}
+
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'application'
+
+jar{
+	baseName = 'springboot-gradle'
+	version = '0.0.1'
+}
+
+repositories {
+    mavenCentral()
+    maven { url "http://repo.spring.io/libs-snapshot" }
+}
+
+configurations {
+    providedRuntime
+}
+
+dependencies {
+    //à ne rajouter que si on a des classes de type groovy
+    //pas nécessaire si on utilise groovy que pour spock
+    compile 'org.codehaus.groovy:groovy-all:2.4.3'
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("org.hibernate:hibernate-validator")
+    compile("javax.inject:javax.inject:1")
+    runtime("org.hsqldb:hsqldb")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("org.spockframework:spock-spring")
+
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.5'
+}
+
