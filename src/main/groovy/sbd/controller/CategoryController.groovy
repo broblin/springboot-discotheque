@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
 import sbd.domain.Category
 import sbd.service.CategoryService
+import sdb.dto.CategoryDTO
 
 import javax.inject.Inject
 import javax.validation.Valid
@@ -20,7 +21,7 @@ class CategoryController {
     CategoryService categoryService
 
     @RequestMapping(value = "/category", method = RequestMethod.POST)
-    Category create(@RequestBody @Valid Category category){
-        return categoryService.create(category)
+    Category create(@RequestBody @Valid CategoryDTO category){
+        return categoryService.create(new Category(name:category.name))
     }
 }

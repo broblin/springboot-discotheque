@@ -22,7 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category create(Category category) {
-        if(repository.findOne(category.getId()) != null) {
+        if(category.getId() != null && repository.findOne(category.getId()) != null) {
             throw new EntityAlreadyExistsException(String.format("Une catégorie avec cet id:%d existe déjà!", category.getId()));
         }else if(repository.findByName(category.getName()) != null){
             throw new EntityAlreadyExistsException(String.format("Une catégorie avec cet intitulé:%s existe déjà!",category.getName()));
