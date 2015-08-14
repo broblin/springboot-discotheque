@@ -3,6 +3,7 @@ package sbd.service;
 import org.springframework.stereotype.Service;
 import sbd.domain.Category;
 import sbd.exception.EntityAlreadyExistsException;
+import sbd.exception.EntityNotFoundException;
 import sbd.repository.CategoryRepository;
 
 import javax.inject.Inject;
@@ -23,9 +24,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category create(Category category) {
         if(category.getId() != null && repository.findOne(category.getId()) != null) {
-            throw new EntityAlreadyExistsException(String.format("Une catégorie avec cet id:%d existe déjà!", category.getId()));
+            throw new EntityAlreadyExistsException(String.format("There already exists a category with id=%d!", category.getId()));
         }else if(repository.findByName(category.getName()) != null){
-            throw new EntityAlreadyExistsException(String.format("Une catégorie avec cet intitulé:%s existe déjà!",category.getName()));
+            throw new EntityAlreadyExistsException(String.format("There already exists a category with name=%s!",category.getName()));
         }else{
             repository.save(category);
         }
@@ -34,16 +35,29 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category update(Long id, String name) {
-        return null;
+        Category category = get(id);
+        if(repository.findByName(name) != null){
+            throw new EntityAlreadyExistsException(String.format("There already exists a category with name=%s!", name));
+        }
+        category.setName(name);
+        repository.save(category);
+        return category;
     }
 
     @Override
     public Category get(Long id) {
-        return null;
+        Category category = repository.findOne(id);
+        if(category == null) {
+            throw new EntityNotFoundException(String.format("No category with id=%d exists!", id));
+        }else{
+            return category;
+        }
     }
 
     @Override
     public Category delete(Long id) {
-        return null;
+        Category category = get(id);
+        repository.delete(category);
+        return category;
     }
 }
