@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull
 @RestController
 class CategoryController {
 
+    public static final String ID_ERROR_MSG = "the id parameter can't be null"
     @Inject
     CategoryService categoryService
 
@@ -32,7 +33,7 @@ class CategoryController {
         if(category.id){
             return categoryService.update(category.id,category.name.toLowerCase())
         }else{
-            throw new Exception("the id parameter can't be null")
+            throw new Exception(ID_ERROR_MSG)
         }
     }
 
@@ -41,7 +42,7 @@ class CategoryController {
         if(id){
             return categoryService.delete(id)
         }else{
-            throw new Exception("the id parameter can't be null")
+            throw new Exception(ID_ERROR_MSG)
         }
     }
 
@@ -50,7 +51,7 @@ class CategoryController {
         if(id){
             return categoryService.get(id)
         }else{
-            throw new Exception("the id parameter can't be null")
+            throw new Exception(ID_ERROR_MSG)
         }
     }
 }
