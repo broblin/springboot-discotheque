@@ -1,5 +1,8 @@
 package sbd.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import sbd.domain.Category;
 import sbd.exception.EntityAlreadyExistsException;
@@ -59,5 +62,10 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = get(id);
         repository.delete(category);
         return category;
+    }
+
+    @Override
+    public Page<Category> findAll(Integer pageNumber, Integer pageSize) {
+        return repository.findAll(new PageRequest(pageNumber,pageSize));
     }
 }

@@ -1,6 +1,7 @@
 package sbd.domain;
 
 import sbd.beans.EAlbumType;
+import sbd.beans.EMusicType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -28,8 +29,8 @@ public class Album {
     @ManyToOne
     Category category;
 
-    @ManyToOne
-    SubCategory subCategory;
+    @NotNull
+    EMusicType musicType;
 
     String label;
 
@@ -82,16 +83,16 @@ public class Album {
         this.category = category;
     }
 
-    public SubCategory getSubCategory() {
-        return subCategory;
-    }
-
-    public void setSubCategory(SubCategory subCategory) {
-        this.subCategory = subCategory;
-    }
-
     public String getLabel() {
         return label;
+    }
+
+    public EMusicType getMusicType() {
+        return musicType;
+    }
+
+    public void setMusicType(EMusicType musicType) {
+        this.musicType = musicType;
     }
 
     public void setLabel(String label) {

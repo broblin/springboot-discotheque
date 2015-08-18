@@ -1,5 +1,7 @@
 package sbd.domain;
 
+import sbd.beans.EMusicType;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -24,8 +26,8 @@ public class Band {
     @ManyToOne
     Category category;
 
-    @ManyToOne
-    SubCategory subCategory;
+    @NotNull
+    EMusicType musicType;
 
     public Band() {
     }
@@ -46,12 +48,12 @@ public class Band {
         this.name = name;
     }
 
-    public SubCategory getSubCategory() {
-        return subCategory;
+    public EMusicType getMusicType() {
+        return musicType;
     }
 
-    public void setSubCategory(SubCategory subCategory) {
-        this.subCategory = subCategory;
+    public void setMusicType(EMusicType musicType) {
+        this.musicType = musicType;
     }
 
     public String getCountry() {

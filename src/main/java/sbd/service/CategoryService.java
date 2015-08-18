@@ -1,5 +1,6 @@
 package sbd.service;
 
+import org.springframework.data.domain.Page;
 import sbd.domain.Category;
 
 /**
@@ -13,4 +14,6 @@ public interface CategoryService {
     Category get(Long id);
 
     Category delete(Long id);
+
+    Page<Category> findAll(Integer pageNumber, Integer pageSize);
 }
