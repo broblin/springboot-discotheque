@@ -1,10 +1,7 @@
 package sbd.controller
 
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.data.domain.Page
+import org.springframework.web.bind.annotation.*
 import sbd.domain.Category
 import sbd.service.CategoryService
 import sdb.dto.CategoryDTO
@@ -14,6 +11,7 @@ import javax.validation.Valid
 import javax.validation.constraints.NotNull
 
 /**
+ * CRUD full REST controller
  * Created by benoit on 12/08/15.
  */
 @RestController
@@ -46,12 +44,17 @@ class CategoryController {
         }
     }
 
-    @RequestMapping(value = "/category/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/category/{id}", method = RequestMethod.GET)
     Category get(@PathVariable @NotNull Long id){
         if(id){
             return categoryService.get(id)
         }else{
             throw new Exception(ID_ERROR_MSG)
         }
+    }
+
+    @RequestMapping(value = "/categories", method = RequestMethod.GET)
+    Page<Category> find(Integer pageNumber,Integer pageSize){
+        return categoryService.findAll(pageNumber ?pageNumber-1:0,pageSize ?:3)
     }
 }
