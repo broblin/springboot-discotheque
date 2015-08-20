@@ -3,6 +3,9 @@ var sbdManagerModule = angular.module('categoryManagerApp', ['ngAnimate']);
 sbdManagerModule.controller('categoryManagerController', function ($scope,$http) {
 	
 	var urlBase="";
+	$scope.range=[];
+	$scope.totalElements=0;
+	$scope.pageNumber=1;
 	$scope.toggle=true;
 	$scope.selection = [];
 	$scope.message="";
@@ -10,7 +13,7 @@ sbdManagerModule.controller('categoryManagerController', function ($scope,$http)
 
     function findAllCategories() {
         //get all tasks and display initially
-        $http.get(urlBase + '/categories?pageNumber=0&pageSize=3').
+        $http.get(urlBase + '/categories?pageNumber='+$scope.pageNumber+'&pageSize=3').
             success(function (data) {
                 if (data.content != undefined) {
                     $scope.categories = data.content;
@@ -20,10 +23,25 @@ sbdManagerModule.controller('categoryManagerController', function ($scope,$http)
                 $scope.categoryName="";
                 $scope.categoryId="";
                 $scope.toggle='!toggle';
+                //pagination range
+                var range = [];
+                for(var i=1;i<=data.totalPages;i++) {
+                  range.push(i);
+                }
+                $scope.range = range;
+                $scope.totalElements=data.totalElements;
+                if(data.totalElements == 0){
+                    $scope.message = "No category has been registered !";
+                }
             });
     }
 
     findAllCategories();
+
+    $scope.updateList = function updateList(pageNumber){
+        $scope.pageNumber=pageNumber;
+        findAllCategories();
+    }
 
 	//add a new category
 	$scope.addCategory = function addCategory() {

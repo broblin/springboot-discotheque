@@ -54,7 +54,7 @@ class CategoryController {
     }
 
     @RequestMapping(value = "/categories", method = RequestMethod.GET)
-    Page<Category> find(Integer pageNumber,Integer pageSize){
-        return categoryService.findAll(pageNumber ?pageNumber-1:0,pageSize ?:3)
+    Page<Category> find(@RequestParam(defaultValue = "1") Integer pageNumber, @RequestParam(defaultValue = "3") Integer pageSize){
+        return categoryService.findAll(pageNumber-1,pageSize)
     }
 }

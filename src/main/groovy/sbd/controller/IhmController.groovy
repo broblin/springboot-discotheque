@@ -12,4 +12,9 @@ class IhmController {
     public String categories(){
         return "categories"
     }
+
+    @RequestMapping("/ihm/categories-v1.html")
+    public String categoriesV1(){
+        return "categories-v1"
+    }
 }
