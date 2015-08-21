@@ -20,20 +20,15 @@
     <div class="page-header">
         <h1>Music categories</h1>
     </div>
-    <!-- issue between angular and thymeleaf with the & character -->
-    <div ng-hide="!toggle">
-    <div class="container" ng-show="totalElements > 3" >
+    <div class="container" ng-show="totalElements > 3 && toggle" >
         <ul class="pagination">
             <li ng-repeat="i in range" ng-class="i == pageNumber ? 'active disabled' : ''">
                 <a ng-click="updateList(i)">{{i}}</a>
             </li>
         </ul>
     </div>
-    </div>
 
-    <!-- issue between angular and thymeleaf with the & character -->
-    <div ng-hide="!toggle">
-    <div class="panel panel-default" ng-show="totalElements > 0">
+    <div class="panel panel-default" ng-show="totalElements > 0 && toggle">
         <div class="panel-heading">
             <i class="panel-title-icon"></i>
             <h3 class="panel-title">List of categories</h3>
@@ -60,7 +55,6 @@
             <button ng-click="toggle = !toggle" class="btn-panel">Add a new Category</button>
             <button class="btn-panel" confirmed-click="deleteCategories()" ng-confirm-click="Would you like to delete selected categories?">Delete selected categories</button>
         </div>
-    </div>
     </div>
 
     <div id="add-category-panel" class="fadein fadeout panel panel-default" ng-hide="toggle">
@@ -92,11 +86,8 @@
         {{message}}
     </div>
 
-    <!-- issue between angular and thymeleaf with the & character -->
-    <div ng-hide="!toggle">
-    <div ng-show="totalElements == 0">
+    <div ng-show="totalElements == 0 && toggle">
         <button ng-click="toggle = !toggle" class="btn-panel">Add a new Category</button>
-    </div>
     </div>
 </div>
 

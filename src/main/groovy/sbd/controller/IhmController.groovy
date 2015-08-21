@@ -8,10 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping
  */
 @Controller
 class IhmController {
-    @RequestMapping("/ihm/categories.html")
-    public String categories(){
-        return "categories"
-    }
 
     @RequestMapping("/ihm/categories-v1.html")
     public String categoriesV1(){
