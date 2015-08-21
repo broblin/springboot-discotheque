@@ -9,11 +9,12 @@ sbdManagerModule.controller('categoryManagerController', function ($scope,$http)
 	$scope.toggle=true;
 	$scope.selection = [];
 	$scope.message="";
+	$scope.pageSize=3;
 	$http.defaults.headers.post["Content-Type"] = "application/json";
 
     function findAllCategories() {
         //get all tasks and display initially
-        $http.get(urlBase + '/categories?pageNumber='+$scope.pageNumber+'&pageSize=3').
+        $http.get(urlBase + '/categories?pageNumber='+$scope.pageNumber+'&pageSize='+$scope.pageSize).
             success(function (data) {
                 if (data.content != undefined) {
                     $scope.categories = data.content;
@@ -45,7 +46,6 @@ sbdManagerModule.controller('categoryManagerController', function ($scope,$http)
 
 	//add a new category
 	$scope.addCategory = function addCategory() {
-	//if($scope.categoryName=="" || $scope.taskDesc=="" || $scope.taskPriority == "" || $scope.taskStatus == ""){
 		if($scope.categoryName==""){
 			alert("Insufficient Data! Please provide values for task name");
 		}
@@ -75,16 +75,29 @@ sbdManagerModule.controller('categoryManagerController', function ($scope,$http)
   };
 
 	// Delete Categories
+
+	 function refreshIfAllDeleted(index){
+	    //tous les éléments du tableau sont passé
+	    if(index+1 == $scope.selection.length){
+            //if it remains no element on the current page, we pass to the previous page
+            if($scope.pageNumber > 1 && $scope.pageSize*($scope.pageNumber-1)==$scope.totalElements-$scope.selection.length){
+                $scope.pageNumber--;
+            }
+            $scope.message="Successfully deleted";
+            $scope.selection=[];
+            findAllCategories();
+	    }
+	 }
+
 	  $scope.deleteCategories = function deleteCategories() {
-          $scope.selection.forEach(function(categoryId) {
+          $scope.selection.forEach(function(categoryId,index) {
               if (categoryId != undefined) {
-                $http.delete(urlBase + '/category/'+categoryId);
+                $http.delete(urlBase + '/category/'+categoryId).success(function (data) {
+                    refreshIfAllDeleted(index);
+                });
               }
           });
-          $scope.message="Successfully deleted";
-          findAllCategories();
 	  };
-	
 });
 
 //Angularjs Directive for confirm dialog box
