@@ -39,6 +39,7 @@
                 <tr>
                     <th>Id</th>
                     <th>Name</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -47,12 +48,13 @@
                         <label for="{{category.id}}" >{{category.id}}</label>
                     </td>
                     <td>{{category.name}}</td>
+                    <td><button ng-click="displayUpdateForm(category.id,category.name)" class="btn-panel">Update</button></td>
                 </tr>
                 </tbody>
             </table>
         </div>
         <div class="panel-footer">
-            <button ng-click="toggle = !toggle" class="btn-panel">Add a new Category</button>
+            <button ng-click="displayCreateForm()" class="btn-panel">Add a new Category</button>
             <button class="btn-panel" confirmed-click="deleteCategories()" ng-confirm-click="Would you like to delete selected categories?">Delete selected categories</button>
         </div>
     </div>
@@ -65,6 +67,10 @@
         <div class="panel-body">
             <div class="category" >
                 <table class="add-category">
+                    <tr ng-show="update">
+                        <td>Category Id:</td>
+                        <td><input type="text" readonly ng-model="categoryId"/></td>
+                    </tr>
                     <tr>
                         <td>Category Name:</td>
                         <td><input type="text" ng-model="categoryName"/></td>
@@ -76,7 +82,7 @@
             </div>
         </div>
         <div class="panel-footer">
-            <button ng-click="addCategory()" class="btn-panel">Submit</button>
+            <button ng-click="update ? updateCategory() : addCategory()" class="btn-panel">Submit</button>
             <button ng-click="toggle = !toggle" class="btn-panel">Show All Categories</button>
         </div>
     </div>
@@ -87,7 +93,7 @@
     </div>
 
     <div ng-show="totalElements == 0 && toggle">
-        <button ng-click="toggle = !toggle" class="btn-panel">Add a new Category</button>
+        <button ng-click="displayCreateForm()" class="btn-panel">Add a new Category</button>
     </div>
 </div>
 

@@ -9,6 +9,7 @@ sbdManagerModule.controller('categoryManagerController', function ($scope,$http)
 	$scope.toggle=true;
 	$scope.selection = [];
 	$scope.message="";
+	$scope.update=false;
 	$scope.pageSize=3;
 	$http.defaults.headers.post["Content-Type"] = "application/json";
 
@@ -44,6 +45,18 @@ sbdManagerModule.controller('categoryManagerController', function ($scope,$http)
         findAllCategories();
     }
 
+    $scope.displayUpdateForm = function displayUpdateForm(categoryId,categoryName){
+        $scope.update = true;
+        $scope.categoryId=categoryId;
+        $scope.categoryName=categoryName;
+        $scope.toggle = !$scope.toggle;
+    }
+
+    $scope.displayCreateForm = function displayCreateForm(){
+        $scope.update = false;
+        $scope.toggle = !$scope.toggle;
+    }
+
 	//add a new category
 	$scope.addCategory = function addCategory() {
 		if($scope.categoryName==""){
@@ -59,6 +72,23 @@ sbdManagerModule.controller('categoryManagerController', function ($scope,$http)
 		    });
 		}
 	};
+
+	//update a new category
+    $scope.updateCategory = function updateCategory() {
+        if($scope.categoryName=="" || $scope.categoryId=="" ){
+            alert("Insufficient Data! Please provide values for task name or id");
+        }
+        else{
+         $http.put(urlBase + '/category', {
+             name: $scope.categoryName,
+             id: $scope.categoryId
+         }).
+          success(function(data, status, headers) {
+             $scope.message="Category updated";
+             findAllCategories();
+            });
+        }
+    };
 
   // toggle selection for a given task by category id
   $scope.toggleSelection = function toggleSelection(categoryId) {
